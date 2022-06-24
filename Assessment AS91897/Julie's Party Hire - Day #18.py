@@ -1,6 +1,5 @@
 from tkinter import *
-from tkinter import ttk 
-
+from tkinter import ttk
 
 global main_window
 
@@ -19,6 +18,7 @@ def entry_labels():
 
     items_hired = Label(frame,text="Items hired")
     items_hired.grid(column=0,row=3)
+
 
 def entry():
     def entry_customer_name_focus(e):
@@ -54,9 +54,14 @@ def entry():
     'Smartphones', 'Soda', 'Tablet', 'Toys', 'Video Games'), state='readonly')
     entry_items_hired.grid(column=1, row=3, pady=5)
 
+    def delete_row_entry_focus(e):
+        delete_row_entry.delete(0,"end")
     global delete_row_entry
     delete_row_entry = Entry(frame)
+    delete_row_entry.insert(0, "Row #")
+    delete_row_entry.bind("<FocusIn>", delete_row_entry_focus)
     delete_row_entry.grid(column=3, row=3, pady=5)
+
 
 def button():
     quit_button = Button(frame, text= "Quit", width = 12, command=quit)
@@ -126,17 +131,17 @@ def append_details():
             row = Label(second_frame, text=name_count)
             row.grid(column=0, row=name_count + ROWS_ABOVE, padx=30)
 
-            name = Label(second_frame, text=(input_data_col1[name_count][-1]))  ##using -1 selects the latest entry in the list
-            name.grid(column=1, row=name_count + ROWS_ABOVE, padx=22)
+            name = Label(second_frame, text=(input_data_col1[name_count][-1])) 
+            name.grid(column=1, row=name_count + ROWS_ABOVE, padx=30)
             
             item = Label(second_frame, text=(input_data_col2[name_count][-1]))
-            item.grid(column=2, row=name_count + ROWS_ABOVE, padx=22)
+            item.grid(column=2, row=name_count + ROWS_ABOVE, padx=30)
             
             receipt = Label(second_frame, text=(input_data_col3[name_count][-1]))
-            receipt.grid(column=3, row=name_count + ROWS_ABOVE, padx=22)
+            receipt.grid(column=3, row=name_count + ROWS_ABOVE, padx=30)
             
             num = Label(second_frame, text=(input_data_col4[name_count][-1]))
-            num.grid(column=4, row= name_count + ROWS_ABOVE, padx=22)
+            num.grid(column=4, row= name_count + ROWS_ABOVE, padx=30)
             
             name_count += 1
 
@@ -165,7 +170,6 @@ def delete_row():
 
     for widget in second_frame.winfo_children():
         widget.destroy()
-        second_frame.pack
 
     append_details()
 
@@ -176,25 +180,9 @@ def delete_row():
     print(input_data_col4)
 
 
-def error_prevention():
-    
-    leader_error = Label(frame, textvariable = customer_name_error_var, fg = 'red')
-    leader_error.grid(column=2, row=0)
-
-    location_error = Label(frame, textvariable = receipt_number_error_var, fg = 'red')
-    location_error.grid(column=2, row=1)
-
-    numcamper_error = Label(frame, textvariable = items_quantity_error_var, fg = 'red', width = 13)
-    numcamper_error.grid(column=2, row=2)
-    
-    weather_error = Label(frame, textvariable = items_hired_error_var, fg = 'red')
-    weather_error.grid(column=2, row=3)
-
-
 def main():
     global main_window
     main_window = Tk()
-
 
     global input_data_col1
     input_data_col1 = []
@@ -244,7 +232,6 @@ def main():
     
     entry_labels()
     entry()
-    error_prevention()
     button()
     table_header()
 
